@@ -25,6 +25,7 @@ class fetch():
     
     def set(self, bus):
         self.bus = bus
+        self.status = ''
         self.driver.get("https://ebus.gov.taipei/VirtualStop/1156800620")
         html = self.driver.page_source
         
@@ -52,7 +53,7 @@ class fetch():
 
         match_status = re.search(pattern_status, section, re.S)
         if (match_status != None):
-            self.status = match_status.group(1)
+            self.status = match_status.group(1).strip()
 
         pattern_status = '<span.*?position-now.*?>(.*?)<\/span>'
 
@@ -77,6 +78,10 @@ class fetch():
             message = message + '本日停駛'
         if (str(self.status) == 'Over Service'):
             message = message + '本日服務已結束,不再發車'
+        if (str(self.status) == '尚未發車'):
+            message = message + '尚未發車'
+        if (str(self.status) == 'Bus at depot'):
+            message = message + '尚未發車'
         if (str(self.status) == 'Coming Soon'):
             message = message + '即將進站'
         return message
