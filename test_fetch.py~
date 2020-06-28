@@ -1,0 +1,4 @@
+from fetch import fetch
+fetch_proxy = fetch()
+fetch_proxy.set('605副')
+print(fetch_proxy.getMessage())
